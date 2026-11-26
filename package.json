@@ -1,0 +1,20 @@
+{
+  "name": "simadu-api-ahmad-rifai",
+  "version": "1.0.0",
+  "description": "SIMADU REST API - Sistem Layanan Informasi dan Pengaduan Mahasiswa (UTS WSE - Ahmad Rifa'i / 240104040053)",
+  "main": "server.cjs",
+  "scripts": {
+    "start": "node server.cjs",
+    "test": "node tests/simadu.test.cjs"
+  },
+  "keywords": ["express5", "rest-api", "simadu", "openapi", "swagger"],
+  "author": "Ahmad Rifa'i (240104040053) - TI24B",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.5",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "swagger-ui-express": "^5.0.1"
+  }
+}

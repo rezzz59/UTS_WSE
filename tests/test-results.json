@@ -1,0 +1,290 @@
+{
+  "total": 16,
+  "passed": 16,
+  "results": [
+    {
+      "no": 1,
+      "skenario": "Login dengan kredensial benar (mahasiswa)",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "sampleResponse": {
+        "success": true,
+        "message": "Autentikasi berhasil.",
+        "data": {
+          "token": "<REDACTED_JWT>",
+          "tokenType": "Bearer",
+          "expiresIn": "1h",
+          "user": {
+            "id": "MHS-053",
+            "nim": "240104040053",
+            "username": "rifai",
+            "nama": "Ahmad Rifa'i",
+            "role": "mahasiswa"
+          }
+        }
+      }
+    },
+    {
+      "no": 2,
+      "skenario": "Login dengan password salah",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "sampleResponse": {
+        "success": false,
+        "message": "Username atau password tidak valid.",
+        "error": {
+          "code": "INVALID_CREDENTIALS",
+          "details": null
+        }
+      }
+    },
+    {
+      "no": 3,
+      "skenario": "Akses endpoint terlindungi tanpa token",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "sampleResponse": {
+        "success": false,
+        "message": "Autentikasi diperlukan. Sertakan header Authorization: Bearer <token>.",
+        "error": {
+          "code": "UNAUTHORIZED",
+          "details": null
+        }
+      }
+    },
+    {
+      "no": 4,
+      "skenario": "Akses menggunakan token tidak valid",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "sampleResponse": {
+        "success": false,
+        "message": "Token tidak valid.",
+        "error": {
+          "code": "INVALID_TOKEN",
+          "details": null
+        }
+      }
+    },
+    {
+      "no": 5,
+      "skenario": "Mahasiswa membuat pengaduan valid",
+      "expectedStatus": 201,
+      "actualStatus": 201,
+      "sampleResponse": {
+        "success": true,
+        "message": "Pengaduan berhasil dibuat.",
+        "data": {
+          "id": 4,
+          "mahasiswaId": "MHS-053",
+          "judul": "Lampu Koridor Gedung B Mati",
+          "kategori": "Fasilitas",
+          "deskripsi": "Lampu koridor lantai 2 gedung B mati sejak dua hari lalu sehingga gelap.",
+          "status": "diajukan",
+          "createdAt": "2026-11-26T12:01:57.507Z"
+        }
+      }
+    },
+    {
+      "no": 6,
+      "skenario": "Mahasiswa membaca pengaduan sendiri",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "sampleResponse": {
+        "success": true,
+        "message": "Detail pengaduan berhasil diambil.",
+        "data": {
+          "id": 4,
+          "mahasiswaId": "MHS-053",
+          "judul": "Lampu Koridor Gedung B Mati",
+          "kategori": "Fasilitas",
+          "deskripsi": "Lampu koridor lantai 2 gedung B mati sejak dua hari lalu sehingga gelap.",
+          "status": "diajukan",
+          "createdAt": "2026-11-26T12:01:57.507Z"
+        }
+      }
+    },
+    {
+      "no": 7,
+      "skenario": "Mahasiswa mencoba membaca pengaduan orang lain (ID 3 milik MHS-099)",
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "sampleResponse": {
+        "success": false,
+        "message": "Akses ditolak: Anda tidak berhak melihat pengaduan milik mahasiswa lain.",
+        "error": {
+          "code": "FORBIDDEN",
+          "details": null
+        }
+      }
+    },
+    {
+      "no": 8,
+      "skenario": "Mahasiswa mengubah status pengaduan",
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "sampleResponse": {
+        "success": false,
+        "message": "Akses ditolak: Endpoint ini hanya dapat diakses oleh role: admin.",
+        "error": {
+          "code": "FORBIDDEN",
+          "details": null
+        }
+      }
+    },
+    {
+      "no": 9,
+      "skenario": "Admin melihat seluruh pengaduan",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "sampleResponse": {
+        "success": true,
+        "message": "Daftar pengaduan berhasil diambil.",
+        "data": [
+          {
+            "id": 1,
+            "mahasiswaId": "MHS-053",
+            "judul": "Proyektor Ruang TI-302 Buram",
+            "kategori": "Fasilitas",
+            "deskripsi": "Lensa proyektor di ruang kuliah TI-302 tidak fokus dan kabel HDMI sering putus sambung.",
+            "status": "diajukan",
+            "createdAt": "2026-11-18T08:30:00.000Z"
+          },
+          {
+            "id": 2,
+            "mahasiswaId": "MHS-053",
+            "judul": "Sinkronisasi Nilai KHS Terlambat",
+            "kategori": "Akademik",
+            "deskripsi": "Nilai mata kuliah Pemrograman Web belum muncul di portal KHS meskipun dosen sudah mengunggah.",
+            "status": "diproses",
+            "createdAt": "2026-11-18T10:15:00.000Z"
+          },
+          {
+            "id": 3,
+            "mahasiswaId": "MHS-099",
+            "judul": "Akses Wi-Fi Gedung FTI Sering Terputus",
+            "kategori": "TI",
+            "deskripsi": "Koneksi Wi-Fi kampus di lantai 2 gedung FTI mengalami timeout setiap 10 menit.",
+            "status": "diajukan",
+            "createdAt": "2026-11-19T09:00:00.000Z"
+          },
+          {
+            "id": 4,
+            "mahasiswaId": "MHS-053",
+            "judul": "Lampu Koridor Gedung B Mati",
+            "kategori": "Fasilitas",
+            "deskripsi": "Lampu koridor lantai 2 gedung B mati sejak dua hari lalu sehingga gelap.",
+            "status": "diajukan",
+            "createdAt": "2026-11-26T12:01:57.507Z"
+          }
+        ]
+      }
+    },
+    {
+      "no": 10,
+      "skenario": "Admin memperbarui status pengaduan",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "sampleResponse": {
+        "success": true,
+        "message": "Status pengaduan berhasil diperbarui.",
+        "data": {
+          "id": 4,
+          "mahasiswaId": "MHS-053",
+          "judul": "Lampu Koridor Gedung B Mati",
+          "kategori": "Fasilitas",
+          "deskripsi": "Lampu koridor lantai 2 gedung B mati sejak dua hari lalu sehingga gelap.",
+          "status": "diproses",
+          "createdAt": "2026-11-26T12:01:57.507Z"
+        }
+      }
+    },
+    {
+      "no": 11,
+      "skenario": "Membuat pengaduan dengan field wajib kosong",
+      "expectedStatus": 400,
+      "actualStatus": 400,
+      "sampleResponse": {
+        "success": false,
+        "message": "Field \"judul\" wajib diisi (5-150 karakter).",
+        "error": {
+          "code": "VALIDATION_ERROR",
+          "details": [
+            "Field \"judul\" wajib diisi (5-150 karakter).",
+            "Field \"deskripsi\" wajib diisi (10-1000 karakter)."
+          ]
+        }
+      }
+    },
+    {
+      "no": 12,
+      "skenario": "Mengakses ID pengaduan yang tidak ditemukan",
+      "expectedStatus": 404,
+      "actualStatus": 404,
+      "sampleResponse": {
+        "success": false,
+        "message": "Pengaduan dengan ID 9999 tidak ditemukan.",
+        "error": {
+          "code": "NOT_FOUND",
+          "details": null
+        }
+      }
+    },
+    {
+      "no": 13,
+      "skenario": "Mahasiswa mencoba mengubah pengaduan yang sudah berstatus diproses",
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "sampleResponse": {
+        "success": false,
+        "message": "Pengaduan tidak dapat diubah karena status saat ini adalah \"diproses\". Perubahan hanya diizinkan saat berstatus \"diajukan\".",
+        "error": {
+          "code": "STATUS_LOCKED",
+          "details": null
+        }
+      }
+    },
+    {
+      "no": 14,
+      "skenario": "Menolak field terlarang (mahasiswaId) pada pembuatan pengaduan",
+      "expectedStatus": 400,
+      "actualStatus": 400,
+      "sampleResponse": {
+        "success": false,
+        "message": "Field tidak diperbolehkan: mahasiswaId.",
+        "error": {
+          "code": "DISALLOWED_FIELDS",
+          "details": {
+            "unknownFields": [
+              "mahasiswaId"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "no": 15,
+      "skenario": "Menolak token yang sudah kedaluwarsa",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "sampleResponse": {
+        "success": false,
+        "message": "Token telah kedaluwarsa. Silakan login ulang.",
+        "error": {
+          "code": "TOKEN_EXPIRED",
+          "details": null
+        }
+      }
+    },
+    {
+      "no": 16,
+      "skenario": "Swagger UI & OpenAPI JSON tersedia",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "sampleResponse": {
+        "openapi": "3.0.3",
+        "title": "SIMADU API - Sistem Layanan Informasi dan Pengaduan Mahasiswa"
+      }
+    }
+  ]
+}
